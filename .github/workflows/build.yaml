@@ -18,28 +18,37 @@ jobs:
     steps:
       # need checkout before using compose-action
       - uses: actions/checkout@v3
-      - uses: isbang/compose-action@v1.4.1
+      - name: Start services 2 and 3
+        uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "./docker/docker-compose.yml"
           down-flags: "--volumes"
           services: |
             helloworld2
             helloworld3
-      - uses: isbang/compose-action@v1.4.1
+
+      - name: Start services 1 too
+        uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "./docker/docker-compose.yml"
           down-flags: "--volumes"
-      - uses: isbang/compose-action@v1.4.1
+
+      - name: Start profile 1
+        uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "./docker/docker-compose.yml"
           compose-flags: "--profile profile-1"
           down-flags: "--volumes"
-      - uses: isbang/compose-action@v1.4.1
+
+      - name: Start with ENV variables
+        uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "./docker/docker-compose-with-env.yml"
         env:
           IMAGE_NAME: hello-world
-      - uses: isbang/compose-action@v1.4.1
+
+      - name: Start multiple compose files
+        uses: isbang/compose-action@v1.4.1
         with:
           compose-file: |
             ./docker/docker-compose.yml
