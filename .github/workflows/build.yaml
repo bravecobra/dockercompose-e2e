@@ -8,10 +8,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-# permissions:
-#   contents: write
-#   discussions: write
-
 jobs:
   docker-run:
     strategy:
@@ -23,17 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Start services backend
-      #   uses: isbang/compose-action@v1.4.1
-      #   with:
-      #     compose-file: |
-      #       ./docker-compose.yml
-      #       ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
-      #     compose-flags: "--profile ${{ matrix.profile }}"
-      #     up-flags: "-d --remove-orphans  --force-recreate"
-      #     down-flags: "--volumes"
-
-
       - name: Docker-compose up
         run: |
           docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml up -d --remove-orphans
@@ -41,35 +26,3 @@ jobs:
       - name: Docker-compose down
         run: |
           docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml down --volumes
-
-      # - name: Start services 1 too
-      #   uses: isbang/compose-action@v1.4.1
-      #   with:
-      #     compose-file: "./docker/docker-compose.yml"
-      #     down-flags: "--volumes"
-
-      # - name: Start profile 1
-      #   uses: isbang/compose-action@v1.4.1
-      #   with:
-      #     compose-file: "./docker/docker-compose.yml"
-      #     compose-flags: "--profile profile-1"
-      #     down-flags: "--volumes"
-
-      # - name: Start with ENV variables
-      #   uses: isbang/compose-action@v1.4.1
-      #   with:
-      #     compose-file: "./docker/docker-compose-with-env.yml"
-      #     up-flags: "--remove-orphans"
-      #   env:
-      #     IMAGE_NAME: hello-world
-
-      # - name: Start multiple compose files
-      #   uses: isbang/compose-action@v1.4.1
-      #   with:
-      #     compose-file: |
-      #       ./docker/docker-compose.yml
-      #       ./docker/docker-compose.ci.yml
-      #     up-flags: "--remove-orphans"
-      #     services: |
-      #       helloworld2
-      #       helloworld4
