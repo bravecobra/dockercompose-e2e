@@ -23,15 +23,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start services backend
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: |
-            ./docker-compose.yml
-            ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
-          compose-flags: "--profile ${{ matrix.profile }}"
-          up-flags: "-d --remove-orphans  --force-recreate"
-          down-flags: "--volumes"
+      # - name: Start services backend
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: |
+      #       ./docker-compose.yml
+      #       ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
+      #     compose-flags: "--profile ${{ matrix.profile }}"
+      #     up-flags: "-d --remove-orphans  --force-recreate"
+      #     down-flags: "--volumes"
+
+
+      - name: Docker-compose up
+        run: |
+          docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml up -d --remove-orphans
+
+      - name: Docker-compose down
+        run: |
+          docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml down --volumes
 
       # - name: Start services 1 too
       #   uses: isbang/compose-action@v1.4.1
