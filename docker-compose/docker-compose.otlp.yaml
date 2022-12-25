@@ -62,3 +62,9 @@ services:
     volumes:
       - prometheus:/prometheus
       - ./docker-compose/config/prometheus/prometheus.grafana.yaml:/etc/prometheus/prometheus.yml
+
+volumes:
+  grafana:
+  prometheus:
+  loki:
+  tempo:
