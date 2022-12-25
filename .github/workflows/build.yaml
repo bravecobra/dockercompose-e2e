@@ -27,8 +27,8 @@ jobs:
         uses: isbang/compose-action@v1.4.1
         with:
           compose-file: |
-            "./docker-compose.yml"
-            "./docker-compose/docker-compose.${{ matrix.profile }}.yaml"
+            ./docker-compose.yml
+            ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
           compose-flags: "--profile ${{ matrix.profile }}"
           up-flags: "--remove-orphans --abort-on-container-exit"
           down-flags: "--volumes"
