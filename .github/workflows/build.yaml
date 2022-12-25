@@ -30,7 +30,7 @@ jobs:
             ./docker-compose.yml
             ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
           compose-flags: "--profile ${{ matrix.profile }}"
-          up-flags: "-d --remove-orphans --abort-on-container-exit"
+          up-flags: "-d --remove-orphans"
           down-flags: "--volumes"
 
       # - name: Start services 1 too
