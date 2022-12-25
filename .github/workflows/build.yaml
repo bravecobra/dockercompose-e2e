@@ -8,53 +8,59 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-permissions:
-  contents: write
-  discussions: write
+# permissions:
+#   contents: write
+#   discussions: write
 
 jobs:
   docker-run:
+    strategy:
+      matrix:
+        profile: [individual, grafana, otlp]
     runs-on: ubuntu-latest
     steps:
       # need checkout before using compose-action
-      - uses: actions/checkout@v3
-      - name: Start services 2 and 3
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker/docker-compose.yml"
-          down-flags: "--volumes"
-          services: |
-            helloworld2
-            helloworld3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Start services 1 too
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker/docker-compose.yml"
-          down-flags: "--volumes"
-
-      - name: Start profile 1
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker/docker-compose.yml"
-          compose-flags: "--profile profile-1"
-          down-flags: "--volumes"
-
-      - name: Start with ENV variables
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker/docker-compose-with-env.yml"
-          up-flags: "--remove-orphans"
-        env:
-          IMAGE_NAME: hello-world
-
-      - name: Start multiple compose files
+      - name: Start services backend
         uses: isbang/compose-action@v1.4.1
         with:
           compose-file: |
-            ./docker/docker-compose.yml
-            ./docker/docker-compose.ci.yml
+            "./docker-compose/docker-compose.yml"
+            "./docker-compose/docker-compose.${{ matrix.profile }}.yml"
+          compose-flags: "--profile ${{ matrix.profile }}"
           up-flags: "--remove-orphans"
-          services: |
-            helloworld2
-            helloworld4
+          down-flags: "--volumes"
+
+      # - name: Start services 1 too
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: "./docker/docker-compose.yml"
+      #     down-flags: "--volumes"
+
+      # - name: Start profile 1
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: "./docker/docker-compose.yml"
+      #     compose-flags: "--profile profile-1"
+      #     down-flags: "--volumes"
+
+      # - name: Start with ENV variables
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: "./docker/docker-compose-with-env.yml"
+      #     up-flags: "--remove-orphans"
+      #   env:
+      #     IMAGE_NAME: hello-world
+
+      # - name: Start multiple compose files
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: |
+      #       ./docker/docker-compose.yml
+      #       ./docker/docker-compose.ci.yml
+      #     up-flags: "--remove-orphans"
+      #     services: |
+      #       helloworld2
+      #       helloworld4
