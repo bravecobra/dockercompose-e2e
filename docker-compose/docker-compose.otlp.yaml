@@ -1,54 +1,54 @@
 version: '3'
 
 services:
-  web:
-    image: emojiui:latest
-    environment:
-      - UseMetricsExporter=otlp
-      - UseTracingExporter=otlp
-      - UseLogExporter=otlp
-      - Otlp__Endpoint=http://otel-collector:4318
-    depends_on:
-      - loki
-      - tempo
-      - prometheus
-      - otel-collector
-  emoji-svc:
-    image: emojisvc:latest
-    environment:
-      - UseMetricsExporter=otlp
-      - UseTracingExporter=otlp
-      - UseLogExporter=otlp
-      - Otlp__Endpoint=http://otel-collector:4318
-    depends_on:
-      - loki
-      - tempo
-      - prometheus
-      - otel-collector
-  voting-svc:
-    image: emojivoting:latest
-    environment:
-      - UseMetricsExporter=otlp
-      - UseTracingExporter=otlp
-      - UseLogExporter=otlp
-      - Otlp__Endpoint=http://otel-collector:4318
-    depends_on:
-      - loki
-      - tempo
-      - prometheus
-      - otel-collector
-  vote-bot:
-    image: emojivotebot:latest
-    environment:
-      - UseMetricsExporter=otlp
-      - UseTracingExporter=otlp
-      - UseLogExporter=otlp
-      - Otlp__Endpoint=http://otel-collector:4318
-    depends_on:
-      - loki
-      - tempo
-      - prometheus
-      - otel-collector
+  # web:
+  #   image: emojiui:latest
+  #   environment:
+  #     - UseMetricsExporter=otlp
+  #     - UseTracingExporter=otlp
+  #     - UseLogExporter=otlp
+  #     - Otlp__Endpoint=http://otel-collector:4318
+  #   depends_on:
+  #     - loki
+  #     - tempo
+  #     - prometheus
+  #     - otel-collector
+  # emoji-svc:
+  #   image: emojisvc:latest
+  #   environment:
+  #     - UseMetricsExporter=otlp
+  #     - UseTracingExporter=otlp
+  #     - UseLogExporter=otlp
+  #     - Otlp__Endpoint=http://otel-collector:4318
+  #   depends_on:
+  #     - loki
+  #     - tempo
+  #     - prometheus
+  #     - otel-collector
+  # voting-svc:
+  #   image: emojivoting:latest
+  #   environment:
+  #     - UseMetricsExporter=otlp
+  #     - UseTracingExporter=otlp
+  #     - UseLogExporter=otlp
+  #     - Otlp__Endpoint=http://otel-collector:4318
+  #   depends_on:
+  #     - loki
+  #     - tempo
+  #     - prometheus
+  #     - otel-collector
+  # vote-bot:
+  #   image: emojivotebot:latest
+  #   environment:
+  #     - UseMetricsExporter=otlp
+  #     - UseTracingExporter=otlp
+  #     - UseLogExporter=otlp
+  #     - Otlp__Endpoint=http://otel-collector:4318
+  #   depends_on:
+  #     - loki
+  #     - tempo
+  #     - prometheus
+  #     - otel-collector
   otel-collector:
     volumes:
       - ./docker-compose/config/otel/otel-config-grafana.yaml:/etc/otel-collector-config.yml
