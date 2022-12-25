@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  docker-run:
+    strategy:
+      matrix:
+        profile: [individual, grafana, otlp]
+    runs-on: ubuntu-latest
+    steps:
+      # need checkout before using compose-action
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker-compose up
+        run: |
+          docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml up -d --remove-orphans
+
+      - name: Docker-compose down
+        run: |
+          docker-compose --profile ${{ matrix.profile }} -f docker-compose.yml -f ./docker-compose/docker-compose.${{ matrix.profile }}.yaml down --volumes
