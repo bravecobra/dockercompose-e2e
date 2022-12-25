@@ -44,6 +44,7 @@ jobs:
         uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "./docker/docker-compose-with-env.yml"
+          compose-flags: "--remove-orphans"
         env:
           IMAGE_NAME: hello-world
 
@@ -53,6 +54,7 @@ jobs:
           compose-file: |
             ./docker/docker-compose.yml
             ./docker/docker-compose.ci.yml
+          compose-flags: "--remove-orphans"
           services: |
             helloworld2
             helloworld4
