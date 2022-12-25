@@ -27,10 +27,10 @@ jobs:
         uses: isbang/compose-action@v1.4.1
         with:
           compose-file: |
-            "./docker-compose/docker-compose.yml"
-            "./docker-compose/docker-compose.${{ matrix.profile }}.yml"
+            "./docker-compose.yml"
+            "./docker-compose/docker-compose.${{ matrix.profile }}.yaml"
           compose-flags: "--profile ${{ matrix.profile }}"
-          up-flags: "--remove-orphans"
+          up-flags: "--remove-orphans --abort-on-container-exit"
           down-flags: "--volumes"
 
       # - name: Start services 1 too
