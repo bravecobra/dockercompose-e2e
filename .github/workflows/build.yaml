@@ -29,8 +29,8 @@ jobs:
           compose-file: |
             ./docker-compose.yml
             ./docker-compose/docker-compose.${{ matrix.profile }}.yaml
-          compose-flags: "--profile ${{ matrix.profile }} --force-recreate"
-          up-flags: "-d --remove-orphans"
+          compose-flags: "--profile ${{ matrix.profile }}"
+          up-flags: "-d --remove-orphans  --force-recreate"
           down-flags: "--volumes"
 
       # - name: Start services 1 too
